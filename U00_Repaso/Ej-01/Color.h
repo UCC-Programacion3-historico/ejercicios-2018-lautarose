@@ -3,7 +3,14 @@
 
 
 class Color {
-
+private:
+    int Rojo;
+    int Verde;
+    int Azul;
+public:
+    Color();
+    char* GetColor();
+    void Tenir(int);
 };
 
 
