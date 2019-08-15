@@ -3,7 +3,7 @@
 #include "Geometria.h"
 class Cuadrado : public Geometria {
 public:
-    Cuadrado (float,float,char*);
+    Cuadrado (float,float,int);
     float GetSuperficie();
     float GetPerimetro();
     double GetDiagonal();

@@ -1,16 +1,14 @@
 #ifndef REPASO_COLOR_H
 #define REPASO_COLOR_H
 
-
 class Color {
 private:
-    int Rojo;
-    int Verde;
-    int Azul;
+    int color;
 public:
-    Color();
-    char* GetColor();
-    void Tenir(int);
+    Color       ();
+    Color       (int);
+    void        GetColor    ();
+    void        Tenir       (int);
 };
 
 

@@ -1,13 +1,12 @@
 #include "Cuadrado.h"
-#include <math.h>
+#include <cmath>
 
-Cuadrado::Cuadrado(float xAlto, float xAncho, char *xColor) : Geometria(xAlto,xAncho,xColor) {
+
+Cuadrado::Cuadrado(float xAlto , float xAncho , int xColor) : Geometria(xAlto,xAncho,xColor){
 }
 
 double Cuadrado::GetDiagonal() {
-    double n;
-    n=sqrt((Alto*Alto)+(Ancho*Ancho))
-    return n;
+    return sqrt((Alto*Alto)+(Ancho*Ancho)) ;
 }
 
 float Cuadrado::GetSuperficie() {

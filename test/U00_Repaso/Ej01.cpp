@@ -9,6 +9,8 @@
 int PORTA;
 class subClass : public Geometria {
 public:
+    subClass() : Geometria(0, 0, 0, nullptr) {}
+
     virtual float getPerimetro() { return 1; }
 
     virtual float getSuperficie() { return 2; }
