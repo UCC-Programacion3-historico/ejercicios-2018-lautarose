@@ -3,14 +3,7 @@
 
 #include "Geometria.h"
 
-class Triangulo : public Geometria{
-private:
-    float Angulo;
-public:
-    Triangulo (float,float,int,float);
-    float GetSuperficie() override;
-    float GetPerimetro() override;//Suponiendo que es un triangulo rectangulo
-    float GetAngulo();
+class Triangulo{
 };
 
 

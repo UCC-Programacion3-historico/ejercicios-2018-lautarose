@@ -3,14 +3,7 @@
 
 #include "Geometria.h"
 
-class Circulo : public Geometria {
-private:
-    float Radio;
-public:
-    Circulo                 (float,float,int);
-    float   GetSuperficie   () override;
-    float   GetPerimetro    () override;
-    float   GetRadio        ();
+class Circulo : {
 };
 
 
