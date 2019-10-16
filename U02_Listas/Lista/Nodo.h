@@ -1,54 +1,28 @@
-//
-// Created by root on 7/10/19.
-//
-
 #ifndef PROGRAMACION3_NODO_H
 #define PROGRAMACION3_NODO_H
 template<class T>
 class Nodo {
-protected:
+private:
     T           Dato;
     Nodo <T>    *Enlace;
 public:
-    Nodo                (T);        /*  Inicializa un nodo que apunta a NULL.  */
-    Nodo                (T,Nodo*);
-    T       GetDato     ();
-    Nodo    *GetEnlace  ();
-    void    PonerEnlace (Nodo*);    /*..Insertar el Nodo siguiente..*/
+    Nodo (T d) { /*  Inicializa un nodo que apunta a NULL.  */
+        Dato=d;
+        Enlace= nullptr;}
+
+    Nodo (T p, Nodo <T> *n) {
+        Dato=p;
+        Enlace=n;}
+
+    T GetDato(){
+        return Dato;}
+
+    Nodo<T> *GetSiguiente() {
+        return Enlace;}
+
+    void PonerEnlace(Nodo <T> *sgte) { /*..Insertar el Nodo siguiente..*/
+        Enlace=sgte;}
 
 };
-
-
-template<class T>
-Nodo<T>::Nodo(T d) {
-    Dato=d;
-    Enlace= nullptr;
-}
-
-
-template<class T>
-Nodo<T>::Nodo(T p, Nodo <T> *n) {
-    Dato=p;
-    Enlace=n;
-}
-
-
-template<class T>
-T Nodo<T>::GetDato() {
-    return Dato;
-}
-
-
-template<class T>
-Nodo *Nodo<T>::GetEnlace() {
-    return Enlace;
-}
-
-
-template<class T>
-void Nodo<T>::PonerEnlace(Nodo <T> *sgte) {
-    Enlace=sgte;
-}
-
 
 #endif //PROGRAMACION3_NODO_H

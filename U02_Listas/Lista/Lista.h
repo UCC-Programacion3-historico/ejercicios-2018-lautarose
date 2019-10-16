@@ -6,10 +6,11 @@
  * almacenar cualquier tipo de dato T
  * @tparam T cualquier tipo de dato
  */
+#include "Nodo.h"
 template<class T>
 class Lista {
 private:
-
+    Nodo <T>    *Primero;
 public:
     Lista();
 
@@ -21,17 +22,17 @@ public:
 
     int getTamanio();
 
-    void insertar(int pos, T dato);
+    void insertar(unsigned int pos, T dato);
 
     void insertarPrimero(T dato);
 
     void insertarUltimo(T dato);
 
-    void remover(int pos);
+    void remover(unsigned int pos);
 
-    T getDato(int pos);
+    T getDato(unsigned int pos);
 
-    void reemplazar(int pos, T dato);
+    void reemplazar(unsigned int pos, T dato);
 
     void vaciar();
 };
@@ -42,7 +43,9 @@ public:
  * @tparam T
  */
 template<class T>
-Lista<T>::Lista() {}
+Lista<T>::Lista() {
+    Primero=nullptr;
+}
 
 
 /**
@@ -51,7 +54,20 @@ Lista<T>::Lista() {}
  * @param li
  */
 template<class T>
-Lista<T>::Lista(const Lista<T> &li) {}
+Lista<T>::Lista(const Lista<T> &li) {
+    Nodo<T> *Actual = Primero , *xActual = li.Primero , *Nuevo;
+
+    Primero=li.Primero;
+
+    if(xActual != nullptr) {
+        while (xActual->GetSiguiente() != nullptr) {
+            xActual = xActual->GetSiguiente();
+            Nuevo =  new Nodo(xActual);
+            Actual->GetSiguiente();
+            Actual=Nuevo;
+        }
+    }
+}
 
 
 /**
@@ -60,7 +76,9 @@ Lista<T>::Lista(const Lista<T> &li) {}
  * @tparam T
  */
 template<class T>
-Lista<T>::~Lista() {}
+Lista<T>::~Lista() {
+    vaciar();
+}
 
 
 /**
@@ -69,7 +87,9 @@ Lista<T>::~Lista() {}
  * @return true si la lista esta vacia, sino false
  */
 template<class T>
-bool Lista<T>::esVacia() { return false;}
+bool Lista<T>::esVacia() {
+    return Primero == nullptr;
+}
 
 
 /**
@@ -77,8 +97,17 @@ bool Lista<T>::esVacia() { return false;}
  * @tparam T
  * @return la cantidad de nodos de la lista
  */
+
 template<class T>
-int Lista<T>::getTamanio() {}
+int Lista<T>::getTamanio() {
+    Nodo <T> *Indice=Primero;
+    int Contador=0;
+    while(Indice!= nullptr){
+        Indice=Indice->GetSiguiente();
+        Contador++;
+    }
+    return Contador;
+}
 
 
 /**
@@ -88,7 +117,29 @@ int Lista<T>::getTamanio() {}
  * @param dato  dato a insertar
  */
 template<class T>
-void Lista<T>::insertar(int pos, T dato) {}
+void Lista<T>::insertar(unsigned int pos, T dato) {
+    Nodo<T>* Indice=Primero,*Nuevo;
+    int PosActual=0;
+
+    if(Primero == nullptr)
+        return;
+
+    if(pos==0){
+        Nuevo=new Nodo<T>(dato , Indice);
+        Primero=Nuevo;
+    }
+
+    while (PosActual < pos-1 && Indice!= nullptr){
+        Indice=Indice->GetSiguiente();
+        PosActual++;
+    }
+
+    if(Indice==nullptr)
+        throw 404;
+
+    Nuevo=new Nodo<T> (dato,Indice->GetSiguiente());
+    Indice->PonerEnlace(Nuevo);
+}
 
 
 /**
@@ -97,7 +148,18 @@ void Lista<T>::insertar(int pos, T dato) {}
  * @param dato dato a insertar
  */
 template<class T>
-void Lista<T>::insertarPrimero(T dato) {}
+void Lista<T>::insertarPrimero(T dato) {
+    Nodo<T> *Nuevo , *Indice = Primero;
+
+    if (Primero == nullptr) {
+        Nuevo = new Nodo(dato);
+        Primero = Nuevo;
+        return;
+    }
+
+    Nuevo = new Nodo<T> (dato , Indice);
+    Primero = Nuevo;
+}
 
 
 /**
@@ -106,16 +168,51 @@ void Lista<T>::insertarPrimero(T dato) {}
  * @param dato dato a insertar
  */
 template<class T>
-void Lista<T>::insertarUltimo(T dato) {}
+void Lista<T>::insertarUltimo(T dato) {
+    Nodo<T> *Nuevo , *Indice = Primero;
+
+    if(Indice == nullptr){
+        Nuevo = new Nodo<T> (dato);
+        Primero = Nuevo;
+        return;
+    }
+
+
+    while (Indice->GetSiguiente() != nullptr){
+        Indice = Indice->GetSiguiente();}
+
+    Nuevo=new Nodo(dato);
+    Indice->PonerEnlace(Nuevo);
+}
 
 
 /**
- * Elimina el nodo en la posicion 'pos' de la lista enlasada
+ * Elimina el nodo en la posicion 'pos' de la lista enlazada
  * @tparam T
  * @param pos posicion del nodo a eliminar
  */
 template<class T>
-void Lista<T>::remover(int pos) {}
+void Lista<T>::remover(unsigned int pos) {
+    Nodo<T> *Anterior=nullptr , *Actual=Primero;
+    int PosActual=0;
+
+    while(PosActual<pos && Actual!= nullptr){
+        Anterior=Actual;
+        Actual=Actual->GetSiguiente();
+        PosActual++;
+    }
+
+    if(Actual==nullptr)
+        throw 404;
+
+    if(pos==0){
+        Primero = Primero->GetSiguiente();
+        delete Actual;
+        return;
+    }
+    Anterior->PonerEnlace(Actual->GetSiguiente());
+    delete Actual;
+}
 
 
 /**
@@ -125,7 +222,26 @@ void Lista<T>::remover(int pos) {}
  * @return dato almacenado en el nodo
  */
 template<class T>
-T Lista<T>::getDato(int pos) {}
+T Lista<T>::getDato(unsigned int pos) {
+    Nodo<T> *Indice=Primero;
+    int PosActual=0;
+
+    if(Primero == nullptr)
+        throw 404;
+
+    if(pos==0)
+        return Primero->GetDato();
+
+    while(Indice != nullptr && PosActual < pos){
+        Indice=Indice->GetSiguiente();
+        PosActual++;
+    }
+
+    if(Indice == nullptr)
+        throw 404;
+
+    return Indice->GetDato();
+}
 
 
 /**
@@ -135,7 +251,29 @@ T Lista<T>::getDato(int pos) {}
  * @param dato nuevo dato a almacenar
  */
 template<class T>
-void Lista<T>::reemplazar(int pos, T dato) {}
+void Lista<T>::reemplazar(unsigned int pos, T dato) {
+    Nodo<T> *Nuevo, *Actual = Primero, *Anterior = nullptr;
+    int PosActual = 0;
+
+    while(PosActual<pos && Actual!= nullptr){
+        Anterior=Actual;
+        Actual=Actual->GetSiguiente();
+        PosActual++;
+    }
+
+    if(Actual == nullptr)
+        throw 404;
+
+    if(pos == 0){
+        Nuevo = new Nodo<T> (dato , Primero->GetSiguiente());
+        Primero->PonerEnlace(Nuevo);
+        delete Actual;
+    }
+
+    Nuevo = new Nodo<T> (dato , Actual->GetSiguiente());
+    Anterior->PonerEnlace(Nuevo);
+    delete Actual;
+}
 
 
 /**
@@ -143,7 +281,15 @@ void Lista<T>::reemplazar(int pos, T dato) {}
  * @tparam T
  */
 template<class T>
-void Lista<T>::vaciar() {}
+void Lista<T>::vaciar() {
+    Nodo<T> *Anterior = nullptr , *Actual = Primero;
+    while(Actual != nullptr){
+        Anterior = Actual;
+        Actual = Actual->GetSiguiente();
+        delete Anterior;
+    }
+    Primero = nullptr;
+}
 
 
 #endif //LISTA_H
