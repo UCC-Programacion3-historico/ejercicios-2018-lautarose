@@ -1,6 +1,7 @@
 #ifndef COLA_H
 #define COLA_H
 
+#include "../../U02_Listas/Lista/Nodo.h"
 /**
  * Clase que implementa una Cola generica, ya que puede
  * almacenar cualquier tipo de dato T
@@ -9,7 +10,8 @@
 template<class T>
 class Cola {
 private:
-
+    Nodo<T> *Frente;
+    Nodo<T> *Final;
 public:
     Cola();
 
@@ -28,7 +30,10 @@ public:
  * @tparam T
  */
 template<class T>
-Cola<T>::Cola() {}
+Cola<T>::Cola() {
+    Frente = nullptr;
+    Final = nullptr;
+}
 
 
 /**
@@ -37,7 +42,10 @@ Cola<T>::Cola() {}
  * @tparam T
  */
 template<class T>
-Cola<T>::~Cola() {}
+Cola<T>::~Cola() {
+    while (Frente != nullptr){
+        desencolar();}
+}
 
 
 /**
@@ -46,7 +54,17 @@ Cola<T>::~Cola() {}
  * @param dato  dato a insertar
  */
 template<class T>
-void Cola<T>::encolar(T dato) {}
+void Cola<T>::encolar(T dato) {
+    Nodo <T> *Nuevo;
+    Nuevo = new Nodo <T> (dato);
+
+    if(Final == nullptr)
+        Frente = Nuevo;
+
+    else
+        Final->PonerEnlace(Nuevo);
+    Final = Nuevo;
+}
 
 
 /**
@@ -55,7 +73,23 @@ void Cola<T>::encolar(T dato) {}
  * @return dato almacenado en el nodo
  */
 template<class T>
-T Cola<T>::desencolar() {}
+T Cola<T>::desencolar() {
+    Nodo <T> *xFrente;
+    T dato;
+
+    if(Frente == nullptr)
+        throw 404;
+
+    dato = Frente->GetDato();
+    xFrente = Frente;
+    Frente = Frente->GetSiguiente();
+
+    if(Frente == nullptr)
+        Final == nullptr;
+
+    delete xFrente;
+    return dato;
+}
 
 /**
  * Responde si la Cola se encuentra Vacía
@@ -64,7 +98,7 @@ T Cola<T>::desencolar() {}
  */
 template<class T>
 bool Cola<T>::esVacia() {
-
+    return Frente == nullptr;
 }
 
 #endif //LISTA_H
